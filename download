@@ -1,0 +1,41 @@
+# Watermelon Calendar Widget runtime data
+data/
+settings.json
+events-cache.json
+widget.log
+widget.pid
+
+# Calendar exports and private feeds
+*.ics
+*.ical
+
+# Credentials and environment files
+.env
+.env.*
+*.secret
+*.secrets
+credentials.json
+client_secret*.json
+
+# Local build output
+*.exe
+*.dll
+*.pdb
+bin/
+obj/
+.vs/
+
+# Installer and diagnostic artifacts
+*.log
+*.tmp
+*.bak
+*.zip
+*.lnk
+
+# Editor and operating-system files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
+

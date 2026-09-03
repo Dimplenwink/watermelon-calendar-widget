@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Watermelon Calendar Widget Setup</title>
+  <style>
+    :root{--berry:#ad1457;--pink:#d81b60;--rose:#fff2f6;--green:#2e7d32;--mint:#7bc67b;--ink:#171717;--muted:#5b5b5b}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#fff7fa,#f2fff4);color:var(--ink);font:16px/1.55 "Segoe UI",Arial,sans-serif}
+    header{background:var(--berry);color:white;padding:42px 24px} header>div,main{max-width:920px;margin:auto} h1{margin:0 0 7px;font-size:34px} header p{margin:0;opacity:.92}
+    main{padding:30px 24px 60px}.card{background:white;border:1px solid #f4ccd9;border-left:7px solid var(--pink);border-radius:12px;padding:23px;margin:18px 0;box-shadow:0 8px 24px #75103312}
+    .green{border-left-color:var(--green)} h2{margin:0 0 10px;color:var(--berry);font-size:22px} h3{color:var(--green);margin:23px 0 5px} ol,ul{padding-left:24px} li{margin:8px 0} code{background:#f7f7f7;border:1px solid #ddd;padding:2px 6px;border-radius:4px;word-break:break-all}
+    a{color:var(--berry);font-weight:600}.note{background:#fff2f6;border-radius:8px;padding:12px 15px}.safe{background:#effaf0;border-left:4px solid var(--green);padding:12px 15px;border-radius:6px}.pill{display:inline-block;background:var(--green);color:white;padding:3px 9px;border-radius:20px;font-size:13px;font-weight:700}.step{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--pink);color:white;font-weight:800;margin-right:8px}
+    table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #eee;text-align:left}th{color:var(--berry)}
+  </style>
+</head>
+<body>
+<header><div><h1>Watermelon Calendar Widget</h1><p>Windows 11 setup guide · Google Calendar + Outlook.com + Private ICS · read-only</p></div></header>
+<main>
+  <section class="card green">
+    <h2>What you are installing</h2>
+    <p>The widget opens above other windows in the top-right corner, can be moved or resized, and hides to the Windows notification area when minimized. The pin button lets other windows cover it when desired. It displays one day or three days at a time and refreshes selected calendars every 10 minutes.</p>
+    <p class="safe"><strong>Privacy:</strong> passwords are entered only on Google or Microsoft sign-in pages. The widget requests read-only calendar access. Sign-in tokens, the Google client secret, private ICS addresses, and the local event cache are encrypted for your Windows account using Windows Data Protection.</p>
+  </section>
+
+  <section class="card green">
+    <h2>Version 1.3 additions and corrections</h2>
+    <ul>
+      <li>The main widget now uses Windows 11's native minimize, maximize, and close buttons.</li>
+      <li>The previous and next date buttons now use proper vector chevrons instead of text characters.</li>
+      <li>Every Google sign-in attempt uses a fresh secure callback port, so a failed approval screen cannot block the next attempt.</li>
+      <li>You can cancel an in-progress browser sign-in and retry immediately.</li>
+      <li>You can add a secret, read-only ICS feed without Google browser approval.</li>
+      <li>A vector pin button beside Refresh switches between always-on-top and normal window stacking.</li>
+      <li>Displayed calendar names are converted to plain standard characters, removing accents, emoji, and malformed symbols.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">1</span>Install the widget</h2>
+    <ol>
+      <li>Extract the downloaded ZIP file.</li>
+      <li>Double-click <strong>Install.cmd</strong>. Windows may ask whether you want to run it because this personal app is not code-signed. Choose <strong>Run anyway</strong> only if you downloaded the ZIP from the official project repository and trust its contents.</li>
+      <li>The installer creates watermelon shortcuts on the desktop and Start menu, adds the widget to Windows startup, opens this guide, and launches the widget without a PowerShell or Windows Terminal window.</li>
+      <li>To keep it on your taskbar, right-click the desktop shortcut and choose <strong>Show more options → Pin to taskbar</strong>. Selecting that watermelon icon later will open or restore the existing widget.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span>Add a private ICS calendar (easiest Google option)</h2>
+    <p>This avoids OAuth and Google app approval. It remains read-only and refreshes from the original calendar every 10 minutes.</p>
+    <ol>
+      <li>On a computer, open <a href="https://calendar.google.com/" target="_blank">Google Calendar</a>, then choose <strong>Settings</strong>.</li>
+      <li>Under <strong>Settings for my calendars</strong>, select the calendar you own.</li>
+      <li>Open <strong>Integrate calendar</strong> and copy <strong>Secret address in iCal format</strong>. Do not use the ordinary public address.</li>
+      <li>In Watermelon Calendar, open Settings and select <strong>+ Private ICS</strong>.</li>
+      <li>Enter a display name, paste the secret address, choose a color, and select <strong>Add calendar</strong>.</li>
+      <li>Leave it checked and select <strong>Save and refresh</strong>.</li>
+    </ol>
+    <p class="note"><strong>Keep this address secret.</strong> Anyone who has it may be able to read that calendar. If it is exposed, return to Google Calendar's Integrate calendar page and select <strong>Reset</strong>, then remove and re-add the feed in the widget. Google may hide the secret address when you do not own the calendar or your sharing permissions are insufficient.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">3</span>Create Google browser sign-in credentials (optional)</h2>
+    <p>Do this once for your Google calendars. A Google Cloud project and the Calendar API are free for this personal-use volume.</p>
+    <ol>
+      <li>Open the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>. Create a project named <strong>Watermelon Calendar Widget</strong>.</li>
+      <li>Open <strong>APIs &amp; Services → Library</strong>. Search for <strong>Google Calendar API</strong> and enable it.</li>
+      <li>Open <strong>Google Auth Platform</strong>. Configure Branding with your email and the app name. Choose an <strong>External</strong> audience if asked.</li>
+      <li>Under Data Access, add <code>https://www.googleapis.com/auth/calendar.readonly</code>, plus <code>openid</code> and email identity access if the console asks you to declare scopes.</li>
+      <li>Add the exact Google address you will use with the widget as a test user. This is required while the publishing status is <strong>Testing</strong>. Save the Audience page before attempting sign-in.</li>
+      <li>Under Clients, create an OAuth client. Choose <strong>Desktop app</strong>. Copy both the Client ID and Client secret immediately. Google may show the secret only once.</li>
+      <li>For uninterrupted syncing beyond seven days, change the app publishing status from <strong>Testing</strong> to <strong>In production</strong>. A personal, unverified app may show an extra warning during sign-in. Confirm that this is your own project and continue. Leaving it in Testing normally makes the Calendar refresh token expire after seven days.</li>
+    </ol>
+    <p class="note">Google changes console labels occasionally. Its official desktop OAuth instructions are <a href="https://developers.google.com/identity/protocols/oauth2/native-app" target="_blank">here</a>.</p>
+  </section>
+
+  <section class="card green">
+    <h2><span class="step">4</span>Create Outlook.com browser sign-in credentials</h2>
+    <ol>
+      <li>Open the <a href="https://entra.microsoft.com/" target="_blank">Microsoft Entra admin center</a> using your personal Microsoft account.</li>
+      <li>Choose <strong>Identity → Applications → App registrations → New registration</strong>.</li>
+      <li>Name it <strong>Watermelon Calendar Widget</strong>. Choose the account type that includes personal Microsoft accounts. If available, choose <strong>Personal Microsoft accounts only</strong>.</li>
+      <li>Open <strong>Authentication → Add a platform → Mobile and desktop applications</strong>. Add this exact custom redirect URI: <code>http://localhost:53682/</code>.</li>
+      <li>Open <strong>API permissions → Add a permission → Microsoft Graph → Delegated permissions</strong>. Add <code>Calendars.Read</code> and <code>User.Read</code>.</li>
+      <li>Return to Overview and copy the <strong>Application (client) ID</strong>. No Microsoft client secret is needed.</li>
+    </ol>
+    <p class="note">Microsoft's official desktop app registration guidance is <a href="https://learn.microsoft.com/en-us/entra/identity-platform/scenario-desktop-app-registration" target="_blank">here</a>.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">5</span>Connect accounts and choose calendars</h2>
+    <ol>
+      <li>In the widget, select the Settings icon, then <strong>+ Google</strong>, <strong>+ Outlook</strong>, or <strong>+ Private ICS</strong>.</li>
+      <li>Paste the requested Client ID. Google also asks for the Client secret. Select <strong>Open secure sign-in</strong>.</li>
+      <li>Complete sign-in in your browser and approve read-only calendar access.</li>
+      <li>Repeat for any additional personal Google or Microsoft accounts.</li>
+      <li>Select up to 20 calendars, then choose <strong>Save and refresh</strong>.</li>
+    </ol>
+  </section>
+
+  <section class="card green">
+    <h2><span class="step">6</span>Everyday controls</h2>
+    <table>
+      <tr><th>Control</th><th>What it does</th></tr>
+      <tr><td>1 DAY / 3 DAYS</td><td>Switches the visible date range. Arrows move by the same increment.</td></tr>
+      <tr><td>Refresh icon</td><td>Refreshes immediately. Automatic refresh runs every 10 minutes.</td></tr>
+      <tr><td>Pin icon</td><td>Green means always on top. Select it to let other windows cover the calendar; select it again to pin the calendar.</td></tr>
+      <tr><td>Settings icon</td><td>Adds or removes accounts and private ICS feeds, and chooses calendars.</td></tr>
+      <tr><td>Display color menu</td><td>Changes the widget color for any existing calendar without removing and re-adding it.</td></tr>
+      <tr><td>12-hour time setting</td><td>Displays event times with AM/PM. Leave it unchecked to use 24-hour time.</td></tr>
+      <tr><td>Minimize</td><td>Hides the widget. Double-click its notification-area icon to restore it.</td></tr>
+      <tr><td>Drag the magenta header</td><td>Moves the widget. Double-click the header to return it to the top-right.</td></tr>
+      <tr><td>Click an event</td><td>Opens the event in its original calendar. The widget itself remains read-only.</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Troubleshooting</h2>
+    <ul>
+      <li><strong>Google displays a hard “Access blocked” or “not approved” error:</strong> open Google Auth Platform → Audience and confirm that the exact account you selected in the browser is listed under Test users. Also confirm that the OAuth client type is Desktop app and that Calendar read-only access is declared under Data Access.</li>
+      <li><strong>Google displays a warning that the app is unverified:</strong> confirm that the project name and developer email are yours, choose Advanced, and continue to your personal app. A warning screen is different from a hard Access blocked error.</li>
+      <li><strong>Google stops syncing after seven days:</strong> the OAuth app is probably still in Testing. Publish it to production or reconnect weekly.</li>
+      <li><strong>Microsoft reports a redirect mismatch:</strong> verify that <code>http://localhost:53682/</code> is registered exactly, including the trailing slash.</li>
+      <li><strong>A calendar shows a sync issue:</strong> open Settings, remove the affected account, and connect it again.</li>
+      <li><strong>A private ICS calendar stops syncing:</strong> its secret address may have been reset. Remove that Private ICS source and add the current secret address again.</li>
+      <li><strong>The widget disappeared:</strong> check the notification-area overflow menu near the Windows clock and double-click the widget icon. You can also launch it from the watermelon desktop or taskbar shortcut.</li>
+      <li><strong>Installation does not finish:</strong> extract the entire ZIP before running <strong>Install.cmd</strong>. Version 1.4.4 verifies the PowerShell program, stops and replaces any earlier launcher, creates a Windows PowerShell 5.1-compatible console-free launcher, and reports errors instead of silently continuing. If it still fails, open <code>%TEMP%\WatermelonCalendarWidget-Install.log</code>.</li>
+      <li><strong>Want to uninstall:</strong> run <strong>Uninstall.cmd</strong> from <code>%LOCALAPPDATA%\WatermelonCalendarWidget</code>. It removes the widget, encrypted tokens, and locally cached event details.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
